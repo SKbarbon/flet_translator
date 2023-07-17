@@ -1,31 +1,31 @@
 from flet_translator import TranslateFletPage, GoogleTranslateLanguage
 import flet as ft
 
-def main(page: ft.Page):
-    tp = TranslateFletPage(page=page, use_internet=True, into_language=GoogleTranslateLanguage.arabic)
-    t = ft.Tabs(
-        selected_index=1,
-        animation_duration=300,
-        tabs=[
-            ft.Tab(
-                text="Tab 1",
-                content=ft.Text("This is Tab 1")
-            ),
-            ft.Tab(
-                tab_content=ft.Icon(ft.icons.SEARCH),
-                content=ft.Text("This is Tab 2"),
-            ),
-            ft.Tab(
-                text="Tab 3",
-                icon=ft.icons.SETTINGS,
-                content=ft.Text("This is Tab 3"),
-            ),
-        ],
-        expand=1,
-    )
-    ft.Text()
+def main(page):
+    tp = TranslateFletPage(page=page, into_language=GoogleTranslateLanguage.arabic)
+    def close_banner(e):
+        page.banner.open = False
+        page.update()
 
-    page.add(t)
+    page.banner = ft.Banner(
+        bgcolor=ft.colors.AMBER_100,
+        leading=ft.Icon(ft.icons.WARNING_AMBER_ROUNDED, color=ft.colors.AMBER, size=40),
+        content=ft.Text(
+            "Oops, there were some errors while trying to delete the file. What would you like me to do?"
+        ),
+        actions=[
+            ft.TextButton("Retry", on_click=close_banner),
+            ft.TextButton("Ignore", on_click=close_banner),
+            ft.TextButton("Cancel", on_click=close_banner),
+        ],
+    )
+
+    def show_banner_click(e):
+        page.banner.open = True
+        page.update()
+
+    page.add(ft.ElevatedButton("Show Banner", on_click=show_banner_click))
+    
     tp.update()
 
 ft.app(target=main)

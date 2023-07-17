@@ -52,6 +52,16 @@ class TranslateFletPage:
     def translate_child_controls (self):
         if self.page.appbar != None:
             translate_control_content(self, control=self.page.appbar, use_internet=self.__use_internet)
+
+        if self.page.dialog != None:
+            translate_control_content(self, control=self.page.dialog, use_internet=self.__use_internet)
+        
+        if self.page.banner != None:
+            translate_control_content(self, control=self.page.banner, use_internet=self.__use_internet)
+        
+        if self.page.snack_bar != None:
+            translate_control_content(self, control=self.page.snack_bar, use_internet=self.__use_internet)
+
         for con in self.page.controls:
             threading.Thread(
                 target=translate_control_content,
