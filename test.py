@@ -1,8 +1,8 @@
-from flet_translator import TranslateFletPage, GoogleTranslateLanguage
+from flet_translator import TranslateFletPage, GoogleTranslateLanguage, OpusmtLanguage
 import flet as ft
 
 def main(page):
-    tp = TranslateFletPage(page=page, into_language=GoogleTranslateLanguage.arabic)
+    tp = TranslateFletPage(page=page, into_language=OpusmtLanguage.ar, use_internet=False)
     def close_banner(e):
         page.banner.open = False
         page.update()
@@ -25,7 +25,7 @@ def main(page):
         page.update()
 
     page.add(ft.ElevatedButton("Show Banner", on_click=show_banner_click))
-    
+
     tp.update()
 
 ft.app(target=main)
