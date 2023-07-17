@@ -7,7 +7,7 @@
 You can install `flet_translator` using pip:
 
 ```bash
-pip install flet_translator
+pip install flet_translator --upgrade
 ```
 
 ## Example and Usage
