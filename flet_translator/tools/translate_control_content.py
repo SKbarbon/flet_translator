@@ -38,7 +38,7 @@ def translate_control_content (TranslateFletPage_class, control:flet.Control, us
 
 
 
-    sub_controls_names = ["controls", "tabs"]
+    sub_controls_names = ["controls", "tabs", "actions"]
     for i in sub_controls_names:
         if hasattr(control, i):
             for i in getattr(control, str(i)):
@@ -49,13 +49,14 @@ def translate_control_content (TranslateFletPage_class, control:flet.Control, us
                 }, daemon=True).start()
                 # translate_control_content(TranslateFletPage_class, i, use_internet)
     
-
-    if hasattr(control, "content"):
-        threading.Thread(target=translate_control_content, kwargs={
-                    "TranslateFletPage_class" : TranslateFletPage_class,
-                    "control" : getattr(control, "content"),
-                    "use_internet" : use_internet
-                }, daemon=True).start()
+    sub_contents_names = ["content", "leading", "title"]
+    for ic in sub_contents_names:
+        if hasattr(control, ic):
+            threading.Thread(target=translate_control_content, kwargs={
+                        "TranslateFletPage_class" : TranslateFletPage_class,
+                        "control" : getattr(control, ic),
+                        "use_internet" : use_internet
+                    }, daemon=True).start()
 
     if control.page != None:
         control.update()

@@ -1,12 +1,31 @@
-from flet_translator import TranslateFletPage, GoogleTranslateLanguage, OpusmtLanguage
-import flet
+from flet_translator import TranslateFletPage, GoogleTranslateLanguage
+import flet as ft
 
-def main (page:flet.Page):
-    tp = TranslateFletPage(page=page, into_language=OpusmtLanguage.ar, use_internet=False)
+def main(page: ft.Page):
+    tp = TranslateFletPage(page=page, use_internet=True, into_language=GoogleTranslateLanguage.arabic)
+    t = ft.Tabs(
+        selected_index=1,
+        animation_duration=300,
+        tabs=[
+            ft.Tab(
+                text="Tab 1",
+                content=ft.Text("This is Tab 1")
+            ),
+            ft.Tab(
+                tab_content=ft.Icon(ft.icons.SEARCH),
+                content=ft.Text("This is Tab 2"),
+            ),
+            ft.Tab(
+                text="Tab 3",
+                icon=ft.icons.SETTINGS,
+                content=ft.Text("This is Tab 3"),
+            ),
+        ],
+        expand=1,
+    )
+    ft.Text()
 
-    c = flet.Container(content=flet.Text("I will be Arabic!"))
-    page.add(c)
-    
+    page.add(t)
     tp.update()
 
-flet.app(target=main)
+ft.app(target=main)
