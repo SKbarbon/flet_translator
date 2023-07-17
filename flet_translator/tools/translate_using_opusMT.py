@@ -1,9 +1,8 @@
-from easynmt import EasyNMT
 
 
 
-def translate_using_opusMT (Translatemodel:EasyNMT, src:str, from_language, into_language):
-
+def translate_using_opusMT (Translatemodel, src:str, from_language, into_language):
+    from easynmt import EasyNMT
     if from_language == "auto":
         r = Translatemodel.translate(src, target_lang=into_language, 
                                     perform_sentence_splitting=True)
@@ -15,4 +14,5 @@ def translate_using_opusMT (Translatemodel:EasyNMT, src:str, from_language, into
 
 
 if __name__ == "__main__":
+    from easynmt import EasyNMT
     model = EasyNMT('opus-mt')

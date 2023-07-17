@@ -1,7 +1,6 @@
 from ..utils.google_supported_langaues import GoogleTranslateLanguage
 from ..utils.is_rtl import is_rtl_language
 from ..tools.translate_control_content import translate_control_content
-from easynmt import EasyNMT
 import flet, threading, os
 
 
@@ -37,6 +36,7 @@ class TranslateFletPage:
         self.__use_internet = use_internet
 
         if use_internet == False:
+            from easynmt import EasyNMT
             # store ML models
             self.opusMT_model = EasyNMT('opus-mt')
 
@@ -74,6 +74,7 @@ class TranslateFletPage:
     
     def activate_local_ML_translation (self):
         """This will activate the local machine learning model to be used in future translation requests"""
+        from easynmt import EasyNMT
         self.__use_internet = False
         # store ML models
         self.opusMT_model = EasyNMT('opus-mt')
