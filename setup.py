@@ -11,7 +11,7 @@ setup(
     long_description=long_des,
     long_description_content_type='text/markdown',
     url='https://github.com/SKbarbon/flet_translator',
-    install_requires=["flet", "EasyNMT", "sacremoses", "deep-translator"],
+    install_requires=["flet", "sacremoses", "deep-translator"],
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

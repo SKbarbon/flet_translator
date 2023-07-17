@@ -36,7 +36,10 @@ class TranslateFletPage:
         self.__use_internet = use_internet
 
         if use_internet == False:
-            from easynmt import EasyNMT
+            try:
+                from easynmt import EasyNMT
+            except:
+                raise ImportError("Please install the easynmt package:\npip install EasyNMT")
             # store ML models
             self.opusMT_model = EasyNMT('opus-mt')
 
@@ -74,7 +77,10 @@ class TranslateFletPage:
     
     def activate_local_ML_translation (self):
         """This will activate the local machine learning model to be used in future translation requests"""
-        from easynmt import EasyNMT
+        try:
+            from easynmt import EasyNMT
+        except:
+            raise ImportError("Please install the easynmt package:\npip install EasyNMT")
         self.__use_internet = False
         # store ML models
         self.opusMT_model = EasyNMT('opus-mt')

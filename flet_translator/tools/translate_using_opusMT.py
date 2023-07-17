@@ -2,7 +2,10 @@
 
 
 def translate_using_opusMT (Translatemodel, src:str, from_language, into_language):
-    from easynmt import EasyNMT
+    try:
+        from easynmt import EasyNMT
+    except:
+        raise ImportError("Please install the easynmt package:\npip install EasyNMT")
     if from_language == "auto":
         r = Translatemodel.translate(src, target_lang=into_language, 
                                     perform_sentence_splitting=True)
