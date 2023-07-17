@@ -1,0 +1,4 @@
+flet
+EasyNMT
+sacremoses
+deep-translator
