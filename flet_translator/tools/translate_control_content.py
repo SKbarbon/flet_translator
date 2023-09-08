@@ -1,10 +1,10 @@
 from ..utils.allowed_props_to_translate import allowed_props_to_translate
 from ..tools.translate_using_google import translate_using_google
 from ..tools.translate_using_opusMT import translate_using_opusMT
-import flet, threading
+import flet, threading, asyncio
 
 
-def translate_control_content (TranslateFletPage_class, control:flet.Control, use_internet:bool=True):
+def translate_control_content (TranslateFletPage_class, control:flet.Control, use_internet:bool=True, update_async=False):
     """
     This function translate the control content.
 
@@ -60,4 +60,7 @@ def translate_control_content (TranslateFletPage_class, control:flet.Control, us
                     }, daemon=True).start()
 
     if control.page != None:
-        control.update()
+        if update_async:
+            asyncio.create_task(control.update_async())
+        else:
+            control.update()

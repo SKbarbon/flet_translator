@@ -1,7 +1,7 @@
 from ..utils.google_supported_langaues import GoogleTranslateLanguage
 from ..utils.is_rtl import is_rtl_language
 from ..tools.translate_control_content import translate_control_content
-import flet, threading, os
+import flet, threading, os, asyncio
 
 
 class TranslateFletPage:
@@ -52,28 +52,33 @@ class TranslateFletPage:
 
 
 
-    def translate_child_controls (self):
+    def translate_child_controls (self, update_in_async:bool):
         if self.page.appbar != None:
-            translate_control_content(self, control=self.page.appbar, use_internet=self.__use_internet)
+            translate_control_content(self, control=self.page.appbar, use_internet=self.__use_internet, update_async=update_in_async)
 
         if self.page.dialog != None:
-            translate_control_content(self, control=self.page.dialog, use_internet=self.__use_internet)
+            translate_control_content(self, control=self.page.dialog, use_internet=self.__use_internet, update_async=update_in_async)
         
         if self.page.banner != None:
-            translate_control_content(self, control=self.page.banner, use_internet=self.__use_internet)
+            translate_control_content(self, control=self.page.banner, use_internet=self.__use_internet, update_async=update_in_async)
         
         if self.page.snack_bar != None:
-            translate_control_content(self, control=self.page.snack_bar, use_internet=self.__use_internet)
+            translate_control_content(self, control=self.page.snack_bar, use_internet=self.__use_internet, update_async=update_in_async)
 
-        for con in self.page.controls:
-            threading.Thread(
-                target=translate_control_content,
-                args=[self],
-                kwargs={
-                    "control" : con,
-                    "use_internet" : self.__use_internet
-                }
-            ).start()
+        if update_in_async:
+            for con in self.page.controls:
+                translate_control_content(self, con, self.__use_internet, update_in_async)
+        else:
+            for con in self.page.controls:
+                threading.Thread(
+                    target=translate_control_content,
+                    args=[self],
+                    kwargs={
+                        "control" : con,
+                        "use_internet" : self.__use_internet,
+                        "update_async" : update_in_async
+                    }
+                ).start()
     
     def activate_local_ML_translation (self):
         """This will activate the local machine learning model to be used in future translation requests"""
@@ -106,5 +111,16 @@ class TranslateFletPage:
             self.page.rtl = False
         self.page.update()
 
-        self.translate_child_controls()
+        self.translate_child_controls(update_in_async=False)
         self.page.update()
+    
+    async def update_async (self):
+        """This will be called per page.update so it follow the page updates"""
+        if is_rtl_language(language=str(self.into_language.value)):
+            self.page.rtl = True
+        else:
+            self.page.rtl = False
+        await self.page.update_async()
+
+        self.translate_child_controls(update_in_async=True)
+        await self.page.update_async()
