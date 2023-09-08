@@ -14,6 +14,7 @@ def translate_control_content (TranslateFletPage_class, control:flet.Control, us
     
     # Check if the control is skiped so not translate it.
     if control in TranslateFletPage_class.skiped_controls: return
+    if isinstance(control, flet.TextField): return
     if control == None: return
 
     # start translating the control
