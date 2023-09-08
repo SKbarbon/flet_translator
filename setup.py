@@ -5,7 +5,7 @@ with open("README.md", encoding="utf-8") as f:
 
 setup(
     name='flet_translator',
-    version='1.2.6',
+    version='1.2.7',
     author='SKbarbon',
     description='A package that help flet developers to make their apps support multiple languages',
     long_description=long_des,
